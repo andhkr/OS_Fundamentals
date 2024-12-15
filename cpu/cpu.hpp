@@ -6,7 +6,7 @@
 #define cores 4
 
 struct cpu{
-    int cpuid;
+    int cpuid;    // hartid
     int ra;
     int sp;
     int pc;
@@ -39,5 +39,5 @@ struct cpu{
 
 cpu harts[cores];
 
-int hart = 0;
+// int hart = 0;
 #endif

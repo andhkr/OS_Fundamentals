@@ -58,7 +58,7 @@ struct process{
     int cpu_use = 0;
     task* curr_task = nullptr;  // which task is doing
     struct context*  registers; // content of registers
-
+    int hart  = 0;
     //default constructor
     process(){};
 
@@ -68,6 +68,8 @@ struct process{
     // save the context of process and restore the other
     void swtcontext(process* new_proc);
 
+    // update context when singel process for context switch handel
+    void savecontext();
     // print
     void print_process();
 };

@@ -49,7 +49,23 @@ void process::swtcontext(process* new_proc){
     harts[hart].s10= new_proc->registers->s10;
     harts[hart].s11= new_proc->registers->s11;
 }
-
+// update context when singel process for context switch handel
+void process::savecontext(){
+    registers->pc=harts[hart].pc;
+    registers->ra=harts[hart].ra;
+    registers->s0=harts[hart].s0;
+    registers->s1=harts[hart].s1;
+    registers->s2=harts[hart].s2;
+    registers->s3=harts[hart].s3;
+    registers->s4=harts[hart].s4;
+    registers->s5=harts[hart].s5;
+    registers->s6=harts[hart].s6;
+    registers->s7=harts[hart].s7;
+    registers->s8=harts[hart].s8;
+    registers->s9=harts[hart].s9;
+    registers->s10=harts[hart].s10;
+    registers->s11=harts[hart].s11;
+}
 // print
 void process::print_process(){
     std::cout<<"P"<<pid<<" "<<arrival<<" ";

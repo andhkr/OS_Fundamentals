@@ -1,51 +1,45 @@
-#include<iostream>
-#include "queue/proc_queue.cpp"
-#include <cassert>
-#include "defs.hpp"
+#include "round_robin.hpp"
 
+RR::RR(int slice){
+    assert(slice%timer_interrupt == 0);
+    time_slice = slice;
 
-#define timer_interrupt 10
+}  
 
-struct RR{
-    proc_queue ready;
-    proc_queue blocked;
-    int time_slice = timer_interrupt;
-    //default constructor
-    RR(){}
+void RR::proc_in(process* p){
+    ready.enqueue(p);
+}
 
-    RR(int slice){
-        assert(slice%timer_interrupt == 0);
-        time_slice = slice;
-
-    }  
-
-    void proc_in(process* p){
-        ready.enqueue(p);
+void RR::schdintr_handler(){
+    for(int i = 0;i<cores;++i){
+        process* running = harts[i].running_process;
+        ready.enqueue(running);
+        process* ready_proc = ready.dequeue();
+        running->swtcontext(ready_proc);
+        ready_proc->hart = i;
+        harts[i].in_cpu(ready_proc);
     }
+}
 
-    void schdintr_handler(){
-        for(int i = 0;i<cores;++i){
-            process* running = harts[i].running_process;
-            ready.enqueue(running);
-            process* ready_proc = ready.dequeue();
-            running->swtcontext(ready_proc);
-            harts[i].in_cpu(ready_proc);
-        }
-    }
-
-    void block(process* p){
+void RR::block(process* p){
+    if(ready.get_count()!=0){
         process* ready_proc = ready.dequeue();
         p->swtcontext(ready_proc);
-        harts[hart].in_cpu(ready_proc);
+        harts[p->hart].in_cpu(ready_proc);
+        ready_proc->hart = p->hart;
+        blocked.enqueue(p);
+    }else{
+        //update context
+        p->savecontext();
         blocked.enqueue(p);
     }
+}
 
-    void ready(process* p){
-        ready.enqueue(p);
-    }
-};
+void RR::Ready(process* p){
+    ready.enqueue(p);
+}
 
-RR rnd_rbn = RR();
+
 
 void scheduler(int slice){    
     for(;;){
