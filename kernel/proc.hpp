@@ -90,6 +90,7 @@ struct proc_smltr {
 
 };
 
+process* new_process = nullptr;
 #endif
 
 

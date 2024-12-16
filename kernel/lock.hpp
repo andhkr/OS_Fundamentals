@@ -38,6 +38,5 @@ struct ticket_lock:teplock{
     void unlock(void*) override;
 };
 
-ticket_lock lock = ticket_lock();
-teplock& apnalock = lock;
+
 #endif
