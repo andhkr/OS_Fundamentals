@@ -1,4 +1,5 @@
 #include "round_robin.hpp"
+#include "interrupt_hndl.hpp"
 
 RR::RR(int slice){
     assert(slice%timer_interrupt == 0);
@@ -7,7 +8,14 @@ RR::RR(int slice){
 }  
 
 void RR::proc_in(process* p){
+    for(int i = 0;i<cores;++i){
+        if(harts[i].running_process == nullptr){
+            harts[i].in_cpu(p);
+            goto scheduled;
+        }
+    }
     ready.enqueue(p);
+    scheduled:
 }
 
 void RR::schdintr_handler(){
@@ -39,14 +47,16 @@ void RR::Ready(process* p){
     ready.enqueue(p);
 }
 
-
-
 void scheduler(int slice){    
+    rnd_rbn.time_slice = slice;
     for(;;){
         volatile long counter = 0;
         const clock_t start = clock();
         while(((clock()-start)*1000/CLOCKS_PER_SEC)<rnd_rbn.time_slice) counter++;
         // scheduler interrupt
-
+        interrupt_info* info = new interrupt_info();
+        info->cause  = sched_intr;
+        info->hart   = 5;
+        interrupt_handler(info);
     }
 }

@@ -88,6 +88,7 @@ struct proc_smltr {
     // print process
     void print();
 
+    void sort_procs();
 };
 
 process* new_process = nullptr;

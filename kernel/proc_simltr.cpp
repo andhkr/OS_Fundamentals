@@ -2,14 +2,13 @@
 #include <iostream>
 #include "proc.hpp"
 #include <cassert>
+#include <algorithm>
 
 //task implimentation:
 //parameterised constructor
 task::task(char a_type, int a_time,task* a_next_task)
 :type(a_type),time_req(a_time),next_task(a_next_task)
 {}
-
-
 
 //process implimentation:
 //parameterised constructor
@@ -130,8 +129,13 @@ void proc_smltr::print(){
     }
 }
 
-
-int main(){
-    proc_smltr processes = proc_smltr(4);
-    processes.print();
+// sort processes with respect to arrival time
+void proc_smltr::sort_procs(){
+    // take time to implement merge sort
+    auto compare = [](const process* p1,const process* p2){
+        return p1->arrival<p2->arrival;
+    };
+    
+    std::sort(process_list,process_list+n,compare);
 }
+
