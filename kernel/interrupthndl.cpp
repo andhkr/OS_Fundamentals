@@ -1,12 +1,12 @@
-#include "interrupt_hndl.hpp"
-
+#include "interrupthndl.hpp"
+void swtcontext(process*,process*);
 // varoius interrupt handlers    
 void proc_fnshd_hndlr(interrupt_info* info){
     int hart = info->hart;
     process* runn_p =  harts[hart].running_process;
     if(rnd_rbn.ready.get_count()!=0){
         process* new_proc = rnd_rbn.ready.dequeue();
-        runn_p->swtcontext(new_proc);
+        swtcontext(runn_p, new_proc);
         harts[hart].running_process = new_proc;
     }else{
         harts[hart].running_process = nullptr;
@@ -34,11 +34,12 @@ void sched_intr_hndlr(interrupt_info* info){
 
 void io_finished_hndlr(interrupt_info* info){
     // the corresponding process will be made to be in ready queue
-    
+    rnd_rbn.blocked.remove(info->p);
+    rnd_rbn.Ready(info->p);
 }
 
 void apnalocks_initialisation(){
-    for(int i = 0;i<no_of_hndlrs;++i){
+    for(int i = 0;i<cores+1;++i){
         apnalocks[i] = new ticket_lock();
     } 
 }  
@@ -51,8 +52,8 @@ void free_apnalocks(){
 //device to service interrupt
 void* interrupt_handler(void* info){
     interrupt_info* tinfo = (interrupt_info*)info;
-    apnalocks[tinfo->cause]->lock(nullptr);
-    handler[tinfo->cause](tinfo->hart);
-    apnalocks[tinfo->cause]->unlock(nullptr);
+    apnalocks[tinfo->hart]->lock(nullptr);
+    handler[tinfo->cause](tinfo);
+    apnalocks[tinfo->hart]->unlock(nullptr);
     delete tinfo;
 }

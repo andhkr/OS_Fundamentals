@@ -1,7 +1,6 @@
 #ifndef DEFS_HPP
 #define DEFS_HPP
 
-#include "cpu/cpu.hpp"
 #include <cstdint>
 
 // proc_simltr.cpp
@@ -65,11 +64,6 @@ struct process{
     //parameterised constructor
     process(int a_pid,int a_arrival,task a_head);
 
-    // save the context of process and restore the other
-    void swtcontext(process* new_proc);
-
-    // update context when singel process for context switch handel
-    void savecontext();
     // print
     void print_process();
 };

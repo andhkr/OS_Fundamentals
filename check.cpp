@@ -47,3 +47,11 @@
 //         pthread_join(thrd[i],NULL);
 //     }
 // }
+#include <iostream>
+
+int main(){
+    for(int i = 1;i<=100000;++i){
+        std::cout<<(-1^i)<<std::endl;
+    }
+    return 0;
+}

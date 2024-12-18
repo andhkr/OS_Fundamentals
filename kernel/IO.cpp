@@ -1,5 +1,4 @@
-#include "allheaders.hpp"
-#include "interrupt_hndl.hpp"
+#include "interrupthndl.hpp"
 
 void iorequest(int hart,int time,process* p){
     clock_t start = clock();

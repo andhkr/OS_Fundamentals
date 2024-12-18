@@ -1,16 +1,15 @@
-#ifndef ROUND_ROBIN_HPP
-#define ROUND_ROBIN_HPP
+#ifndef ROUNDROBIN_HPP
+#define ROUNDROBIN_HPP
 
 #include<iostream>
-#include "queue/proc_queue.cpp"
+#include "ds/ds.hpp"
 #include <cassert>
-#include "proc.hpp"
 
 #define timer_interrupt 10
 
 struct RR{
     proc_queue ready;
-    proc_queue blocked;
+    bst blocked;
     int time_slice = timer_interrupt;
     //default constructor
     RR(){}
@@ -27,4 +26,6 @@ struct RR{
 };
 
 RR rnd_rbn = RR();
+
+void scheduler(int slice);
 #endif

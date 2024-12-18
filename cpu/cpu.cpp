@@ -1,5 +1,5 @@
 #include "cpu.hpp"
-#include "kernel/interrupt_hndl.hpp"
+#include "kernel/interrupthndl.hpp"
 
 void cpu::finished(){
     running_process->finished = true;
@@ -10,6 +10,7 @@ cpu::cpu(int hart){
 }
 
 void cpu::in_cpu(process* p){
+    std::cout<<p->pid<<" scheduled"<<std::endl;
     running_process = p;
     task* curr_task = running_process->curr_task;
     while(curr_task){
@@ -30,5 +31,6 @@ void cpu::in_cpu(process* p){
     info->cause  = proc_finished;
     info->hart   = cpuid;
     interrupt_handler(info);
+    std::cout<<p->pid<<" finished"<<std::endl;
 }
 

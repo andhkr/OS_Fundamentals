@@ -1,7 +1,7 @@
-#ifndef INTERRUPT_HNDL_HPP
-#define INTERRUPT_HNDL_HPP
+#ifndef INTERRUPTHNDL_HPP
+#define INTERRUPTHNDL_HPP
 
-#include "allheaders.hpp"
+#include "roundrobin.hpp"
 
 //interrupt cause number
 #define proc_finished 0
@@ -38,7 +38,7 @@ void io_finished_hndlr(interrupt_info* info);
 
 // array of function pointer for differet type of interrupt handling
 // indexed by interrupt cause number.
-void (*handler[])(int) = {
+void (*handler[])(interrupt_info*) = {
     proc_fnshd_hndlr,
     io_request_hndlr,
     invalid_instr_hndlr,
@@ -51,18 +51,16 @@ void (*handler[])(int) = {
 #define NELIA(x)(sizeof(x)/sizeof(x[0]))    
 
 /*
-make the lock for each interrupt handler function
-for efficiency
+make the lock for each hart
 */
 //locks for every interrupt handler:
-const int no_of_hndlrs = NELIA(handler);
+// const int no_of_hndlrs = NELIA(handler);
 
-teplock* apnalocks[no_of_hndlrs];
+teplock* apnalocks[cores];
 
 void apnalocks_initialisation(); 
 
 void free_apnalocks();
-
 
 
 //interrupt handler: point where every interrupt come and scattered to various

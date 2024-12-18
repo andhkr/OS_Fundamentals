@@ -1,19 +1,31 @@
 K = kernel
 C = cpu
-Q = queue
+D = Datastructures
 
-OBJS=\
+OBJS1=\
 $K/interrupt_hndl.o\
 $K/lock.o\
 $K/proc_simltr.o\
-$K/round_robin.o\
-$C/cpu.o\
-$Q/proc_queue.o
+$K/round_robin.o
 
-all:$(OBJS) 
+OBJS2=\
+$C/cpu.o\
+
+OBJS3=\
+$D/proc_queue.o\
+$D/tree.o
+
+OBJS = $(OBJS1) $(OBJS2) $(OBJS3)
+all:$(OBJS)
 	g++ $^ -o os
 
-OBJS:%.o:%.c
+$K/%.o:$K/%.c
+	g++ $^ -c -o $@
+
+$C/%.o:$C/%.c
+	g++ $^ -c -o $@
+
+$D/%.o:$D/%.c
 	g++ $^ -c -o $@
 	
 
