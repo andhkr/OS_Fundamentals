@@ -2,7 +2,7 @@
 #define ROUNDROBIN_HPP
 
 #include<iostream>
-#include "ds/ds.hpp"
+#include "d_str/ds.hpp"
 #include <cassert>
 
 #define timer_interrupt 10
@@ -25,7 +25,7 @@ struct RR{
     void Ready(process* p);
 };
 
-RR rnd_rbn = RR();
+extern RR rnd_rbn;
 
 void scheduler(int slice);
 #endif

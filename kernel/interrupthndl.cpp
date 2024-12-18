@@ -1,5 +1,20 @@
 #include "interrupthndl.hpp"
+
 void swtcontext(process*,process*);
+
+
+
+// array of function pointer for differet type of interrupt handling
+// indexed by interrupt cause number.
+void (*handler[])(interrupt_info*) = {
+    proc_fnshd_hndlr,
+    io_request_hndlr,
+    invalid_instr_hndlr,
+    new_process_hndlr,
+    sched_intr_hndlr,
+    io_finished_hndlr
+};
+
 // varoius interrupt handlers    
 void proc_fnshd_hndlr(interrupt_info* info){
     int hart = info->hart;
@@ -38,6 +53,8 @@ void io_finished_hndlr(interrupt_info* info){
     rnd_rbn.Ready(info->p);
 }
 
+teplock* apnalocks[cores+1];
+
 void apnalocks_initialisation(){
     for(int i = 0;i<cores+1;++i){
         apnalocks[i] = new ticket_lock();
@@ -45,7 +62,9 @@ void apnalocks_initialisation(){
 }  
 
 void free_apnalocks(){
-    delete[] apnalocks;
+    for (int i = 0;i<cores;++i){
+        delete apnalocks[i];
+    }
 }
 
 //interrupt handler: point where every interrupt come and scattered to various
@@ -56,4 +75,6 @@ void* interrupt_handler(void* info){
     handler[tinfo->cause](tinfo);
     apnalocks[tinfo->hart]->unlock(nullptr);
     delete tinfo;
+    info = nullptr;
+    return nullptr;
 }

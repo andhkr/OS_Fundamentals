@@ -1,6 +1,7 @@
 #include "roundrobin.hpp"
 #include "interrupthndl.hpp"
 
+RR rnd_rbn = RR();
 // save the context of process and restore the other
 void swtcontext(process* old, process* new_proc){
     old->registers->pc=harts[old->hart].pc;
@@ -69,11 +70,13 @@ void RR::proc_in(process* p){
 void RR::schdintr_handler(){
     for(int i = 0;i<cores;++i){
         process* running = harts[i].running_process;
-        ready.enqueue(running);
-        process* ready_proc = ready.dequeue();
-        swtcontext(running, ready_proc);
-        ready_proc->hart = i;
-        harts[i].in_cpu(ready_proc);
+        if(running != nullptr){
+            ready.enqueue(running);
+            process* ready_proc = ready.dequeue();
+            swtcontext(running, ready_proc);
+            ready_proc->hart = i;
+            harts[i].in_cpu(ready_proc);
+        }
     }
 }
 
@@ -96,7 +99,9 @@ void RR::Ready(process* p){
 }
 
 void scheduler(int slice){    
+    std::cout<<"Radha7"<<std::endl;  
     rnd_rbn.time_slice = slice;
+    std::cout<<"Radha8"<<std::endl;  
     for(;;){
         volatile long counter = 0;
         const clock_t start = clock();

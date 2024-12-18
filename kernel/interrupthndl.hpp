@@ -13,9 +13,6 @@
 
 #include "cpu/cpu.hpp"
 
-extern RR rnd_rbn;
-extern process* new_process;
-
 // struct used by every device for interrupt generation
 struct interrupt_info{
     int cause;
@@ -38,14 +35,7 @@ void io_finished_hndlr(interrupt_info* info);
 
 // array of function pointer for differet type of interrupt handling
 // indexed by interrupt cause number.
-void (*handler[])(interrupt_info*) = {
-    proc_fnshd_hndlr,
-    io_request_hndlr,
-    invalid_instr_hndlr,
-    new_process_hndlr,
-    sched_intr_hndlr,
-    io_finished_hndlr
-};
+extern void (*handler[])(interrupt_info*);
 
 // number of element in an array
 #define NELIA(x)(sizeof(x)/sizeof(x[0]))    
@@ -56,7 +46,7 @@ make the lock for each hart
 //locks for every interrupt handler:
 // const int no_of_hndlrs = NELIA(handler);
 
-teplock* apnalocks[cores];
+extern teplock* apnalocks[cores+1];
 
 void apnalocks_initialisation(); 
 

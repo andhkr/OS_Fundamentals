@@ -1,8 +1,8 @@
 #ifndef DS_HPP
 #define DS_HPP
 
-#include "kernel/proc.hpp"
-#include "kernel/lock.hpp"
+#include "proc.hpp"
+#include "lock.hpp"
 
 class proc_queue{
     process* queue[max_procs];

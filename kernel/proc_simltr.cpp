@@ -51,7 +51,6 @@ proc_smltr::proc_smltr(int n){
         task* curr_proc = &process_list[i].tasklisthead;
 
         for(int j = 1;j<number_of_task;++j){
-            int i_type = rand()%2;
             char type = (rand() % 2 == 0) ? 'C' : 'I';
 
             job_lenght     = (1+rand())%max_time_per_task;
@@ -84,8 +83,8 @@ void proc_smltr::print(){
 // sort processes with respect to arrival time
 void proc_smltr::sort_procs(){
     // take time to implement merge sort
-    auto compare = [](const process* p1,const process* p2){
-        return p1->arrival<p2->arrival;
+    auto compare = [](process p1,process p2){
+        return p1.arrival<p2.arrival;
     };
     
     std::sort(process_list,process_list+n,compare);

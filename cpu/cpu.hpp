@@ -17,11 +17,11 @@ struct cpu{
 
     //constructor
     cpu(){}
-    cpu(int){};
+    cpu(int);
     void finished();
     void in_cpu(process* p);
 };
 
-cpu harts[cores];
+extern cpu harts[cores];
 
 #endif

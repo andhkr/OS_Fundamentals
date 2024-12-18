@@ -1,6 +1,8 @@
 #include "cpu.hpp"
 #include "kernel/interrupthndl.hpp"
 
+cpu harts[cores];
+
 void cpu::finished(){
     running_process->finished = true;
 }
@@ -32,5 +34,6 @@ void cpu::in_cpu(process* p){
     info->hart   = cpuid;
     interrupt_handler(info);
     std::cout<<p->pid<<" finished"<<std::endl;
+    
 }
 
