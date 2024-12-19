@@ -1,7 +1,11 @@
 #include "roundrobin.hpp"
 #include "interrupthndl.hpp"
+#include <pthread.h>
+#include <unistd.h>
 
-RR rnd_rbn = RR();
+interrupt_info per_hart_infos[cores];
+pthread_cond_t per_hart_cond[cores];
+
 // save the context of process and restore the other
 void swtcontext(process* old, process* new_proc){
     old->registers->pc=harts[old->hart].pc;
@@ -60,7 +64,8 @@ RR::RR(int slice){
 void RR::proc_in(process* p){
     for(int i = 0;i<cores;++i){
         if(harts[i].running_process == nullptr){
-            harts[i].in_cpu(p);
+            // std::cout<<"Radha1002"<<std::endl;
+            cpu_in(i,p);
             return;
         }
     }
@@ -74,8 +79,7 @@ void RR::schdintr_handler(){
             ready.enqueue(running);
             process* ready_proc = ready.dequeue();
             swtcontext(running, ready_proc);
-            ready_proc->hart = i;
-            harts[i].in_cpu(ready_proc);
+            cpu_in(i,ready_proc);
         }
     }
 }
@@ -84,8 +88,7 @@ void RR::block(process* p){
     if(ready.get_count()!=0){
         process* ready_proc = ready.dequeue();
         swtcontext(p,ready_proc);
-        harts[p->hart].in_cpu(ready_proc);
-        ready_proc->hart = p->hart;
+        cpu_in(p->hart,ready_proc);
         blocked.insert(p);
     }else{
         //update context
@@ -98,18 +101,33 @@ void RR::Ready(process* p){
     ready.enqueue(p);
 }
 
-void scheduler(int slice){    
-    std::cout<<"Radha7"<<std::endl;  
-    rnd_rbn.time_slice = slice;
-    std::cout<<"Radha8"<<std::endl;  
+void RR::cpu_in(int hart,process* p){
+    // std::cout<<"cpuin"<<std::endl;
+    per_hart_infos[hart].p = p;
+    p->hart = hart;
+    pthread_cond_signal(&per_hart_cond[hart]);
+}
+
+extern RR rnd_rbn;
+
+void* scheduler(void* args){    
+    // std::cout<<"Radha7"<<std::endl;  
+    rnd_rbn.time_slice = *(int*)args;
+    // std::cout<<"Radha8"<<std::endl;  
+    int rslice = rnd_rbn.time_slice;
     for(;;){
         volatile long counter = 0;
-        const clock_t start = clock();
-        while(((clock()-start)*1000/CLOCKS_PER_SEC)<rnd_rbn.time_slice) counter++;
-        // scheduler interrupt
+        clock_t start = clock();
+        // std::cout<<"Radha11"<<std::endl;  
         interrupt_info* info = new interrupt_info();
         info->cause  = sched_intr;
         info->hart   = 4;
+        // std::cout<<"Radha13"<<std::endl;
+        // while(((clock()-start)*1000/CLOCKS_PER_SEC)<rslice) counter++;
+        sleep(1);
+        //  std::cout<<"Radha12"<<std::endl;  
+        // scheduler interrupt
+        
         interrupt_handler(info);
     }
 }

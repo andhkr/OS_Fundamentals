@@ -14,7 +14,7 @@ void (*handler[])(interrupt_info*) = {
     sched_intr_hndlr,
     io_finished_hndlr
 };
-
+extern RR rnd_rbn;
 // varoius interrupt handlers    
 void proc_fnshd_hndlr(interrupt_info* info){
     int hart = info->hart;
@@ -39,11 +39,12 @@ void invalid_instr_hndlr(interrupt_info* info){
 }
 
 void new_process_hndlr(interrupt_info* info){
-
-    rnd_rbn.ready.enqueue(info->p);
+    //  std::cout<<"Radha1001"<<std::endl;
+    rnd_rbn.proc_in(info->p);
 }
 
 void sched_intr_hndlr(interrupt_info* info){
+    
     rnd_rbn.schdintr_handler();
 }
 
@@ -62,7 +63,7 @@ void apnalocks_initialisation(){
 }  
 
 void free_apnalocks(){
-    for (int i = 0;i<cores;++i){
+    for (int i = 0;i<cores+1;++i){
         delete apnalocks[i];
     }
 }
@@ -70,7 +71,7 @@ void free_apnalocks(){
 //interrupt handler: point where every interrupt come and scattered to various
 //device to service interrupt
 void* interrupt_handler(void* info){
-    interrupt_info* tinfo = (interrupt_info*)info;
+    interrupt_info* tinfo = (interrupt_info*)info;;
     apnalocks[tinfo->hart]->lock(nullptr);
     handler[tinfo->cause](tinfo);
     apnalocks[tinfo->hart]->unlock(nullptr);

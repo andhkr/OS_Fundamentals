@@ -4,7 +4,7 @@
 #include<iostream>
 #include "d_str/ds.hpp"
 #include <cassert>
-
+#include <ctime>
 #define timer_interrupt 10
 
 struct RR{
@@ -23,9 +23,9 @@ struct RR{
     void block(process* p);
 
     void Ready(process* p);
+
+    void cpu_in(int hart,process* p);
 };
 
-extern RR rnd_rbn;
-
-void scheduler(int slice);
+void* scheduler(void*);
 #endif
