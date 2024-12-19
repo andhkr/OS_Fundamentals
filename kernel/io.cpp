@@ -1,9 +1,9 @@
 #include "interrupthndl.hpp"
 
-void iorequest(int hart,int time,process* p){
+void iorequest(int hart,int iotime,process* p){
     clock_t start = clock();
     volatile long counter = 0;
-    while(((clock()-start)*1000/CLOCKS_PER_SEC)!=time)counter++;
+    while(((clock()-start)*1000/CLOCKS_PER_SEC)!=iotime)counter++;
     interrupt_info* info = new interrupt_info();
     info->cause  = i_o_finished;
     info->hart   = hart;

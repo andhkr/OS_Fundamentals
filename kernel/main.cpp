@@ -4,12 +4,14 @@
 #include <pthread.h>
 #include <sched.h>
 #include <unistd.h>
-#include <signal.h>
+#include <csignal>
+#include <atomic>
+#include <mutex>
 
-#define number_of_procs 99
+#define number_of_procs 4
 
-#define for_sched 0
-#define for_interrupt 1
+std::mutex print_mutex;                      // since std::cout is not thread safe
+std::atomic<bool> run_threads(true);         // atomic variables so that read , write are thread safe
 
 pthread_mutex_t per_hart_lock[cores];
 extern pthread_cond_t per_hart_cond[cores];
@@ -17,23 +19,61 @@ extern interrupt_info per_hart_infos[cores];
 
 void* mycpu(void* cpuid){
     int id = *(int*)cpuid;
-    for(;;){
+    while(run_threads){
         pthread_mutex_lock(&per_hart_lock[id]);
 
         pthread_cond_wait(&per_hart_cond[id],&per_hart_lock[id]);
 
         //start to run process
+        // if info have process then schedule
+        if(per_hart_infos[id].p)
         harts[id].in_cpu(per_hart_infos[id].p);
 
         pthread_mutex_unlock(&per_hart_lock[id]);
     }
+
+    /*
+    if in between process power off signal comes so there may be some thread waiting 
+    befor mutex and signal by signal handler may get waste so in that case each 
+    exiting thread will broadcaste
+    */
+    for(int i = 0;i<cores;++i){
+        pthread_cond_signal(&per_hart_cond[i]);
+    }
+
+    {
+        /*
+        at a time only one thread can use std::cout so that 
+        output is consistent and lock_guard will release the lock
+        automatically as it goes out of scope
+        */
+        std::lock_guard<std::mutex> lock(print_mutex);
+        std::cout<<"CPU "<<id<<" is now off"<<std::endl;
+    }
+    return nullptr;
 }
 
+// power off
+void signalhandler(int signum){
+    run_threads = false;
+    for(int i = 0;i<cores;++i){
+        pthread_cond_signal(&per_hart_cond[i]);
+    }
+}
 /*
 in proc.hpp max number of process can be simulated is definded as macro
 */
 RR rnd_rbn = RR();
 int main(){
+    // how to power off
+    struct sigaction sa;
+    sa.sa_handler = signalhandler;    
+    sa.sa_flags   = 0;        // no other flags to configure behaviour of handler    
+    sigemptyset(&sa.sa_mask); // no other signals will be masked while handling the signal
+
+    sigaction(SIGINT,&sa,nullptr);   // --> for ctrl+c
+    sigaction(SIGTSTP,&sa,nullptr);  // --> for ctrl+z
+
     apnalocks_initialisation();                       // locks initialisation
 
     for(int i = 0;i<cores;++i){                      // cpu initialisation
@@ -80,11 +120,21 @@ int main(){
         exit(1);
     }
 
+    // setting cpu affinity for scheduler
+    cpu_set_t cpu_set;
+    CPU_ZERO(&cpu_set);
+    CPU_SET(cores+1,&cpu_set);
+
+    if(pthread_setaffinity_np(sched_thrd,sizeof(cpu_set_t),&cpu_set)){
+        fprintf(stderr,"ERROR:Scheduler affinity set fails\n");
+        exit(1);
+    }
+
     //now simulating process
     proc_smltr processes = proc_smltr(number_of_procs);
     // sorting process according to their arrival time
     processes.sort_procs();
-    
+    processes.print();
     // first process
     rnd_rbn.proc_in(&processes.process_list[0]);
 
@@ -107,9 +157,13 @@ int main(){
         interrupt_handler(info);       
     }
 
-    // signal(SIGINT,)
+    //  joining all cpus
     for(int i = 0;i<cores;++i){
         pthread_join(cpus[i],NULL);
     }
+    // joining scheduler
+    pthread_join(sched_thrd,nullptr);
     free_apnalocks();
+    std::cout<<"Power off"<<std::endl;
+    return 0;
 }

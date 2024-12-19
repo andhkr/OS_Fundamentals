@@ -6,7 +6,6 @@ proc_queue::proc_queue(){
     head = 0;
     tail = 0;
     no_of_procs = 0;
-     std::cout<<"Radha104"<<std::endl;
     qlock       = new ticket_lock();
 }
 

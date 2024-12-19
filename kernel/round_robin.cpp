@@ -6,6 +6,9 @@
 interrupt_info per_hart_infos[cores];
 pthread_cond_t per_hart_cond[cores];
 
+extern std::mutex print_mutex;
+extern std::atomic<bool> run_threads;
+
 // save the context of process and restore the other
 void swtcontext(process* old, process* new_proc){
     old->registers->pc=harts[old->hart].pc;
@@ -64,7 +67,6 @@ RR::RR(int slice){
 void RR::proc_in(process* p){
     for(int i = 0;i<cores;++i){
         if(harts[i].running_process == nullptr){
-            // std::cout<<"Radha1002"<<std::endl;
             cpu_in(i,p);
             return;
         }
@@ -102,7 +104,6 @@ void RR::Ready(process* p){
 }
 
 void RR::cpu_in(int hart,process* p){
-    // std::cout<<"cpuin"<<std::endl;
     per_hart_infos[hart].p = p;
     p->hart = hart;
     pthread_cond_signal(&per_hart_cond[hart]);
@@ -111,23 +112,21 @@ void RR::cpu_in(int hart,process* p){
 extern RR rnd_rbn;
 
 void* scheduler(void* args){    
-    // std::cout<<"Radha7"<<std::endl;  
     rnd_rbn.time_slice = *(int*)args;
-    // std::cout<<"Radha8"<<std::endl;  
     int rslice = rnd_rbn.time_slice;
-    for(;;){
+    while(run_threads){
         volatile long counter = 0;
         clock_t start = clock();
-        // std::cout<<"Radha11"<<std::endl;  
         interrupt_info* info = new interrupt_info();
         info->cause  = sched_intr;
         info->hart   = 4;
-        // std::cout<<"Radha13"<<std::endl;
-        // while(((clock()-start)*1000/CLOCKS_PER_SEC)<rslice) counter++;
-        sleep(1);
-        //  std::cout<<"Radha12"<<std::endl;  
-        // scheduler interrupt
-        
+        while(((clock()-start)*1000/CLOCKS_PER_SEC)<rslice) counter++;        
         interrupt_handler(info);
     }
+
+    {
+        std::lock_guard<std::mutex> lock(print_mutex);
+        std::cout<<"Now Scheduler is off"<<std::endl;
+    }
+    return nullptr;
 }

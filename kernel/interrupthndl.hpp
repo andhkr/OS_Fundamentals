@@ -16,6 +16,7 @@
 struct interrupt_info{
     int cause;
     int hart;
+    int iotime=0;          // for time used in i/o request
     process* p = nullptr;
 };
 

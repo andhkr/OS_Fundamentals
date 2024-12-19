@@ -12,14 +12,16 @@ cpu::cpu(int hart){
 }
 
 void cpu::in_cpu(process* p){
-    std::cout<<p->pid<<" scheduled"<<std::endl;
+    std::cout<<"process "<<p->pid<<" scheduled"<<std::endl;
     running_process = p;
     task* curr_task = running_process->curr_task;
     while(curr_task){
         if(curr_task->type == 'I'){
+            std::cout<<"process "<<p->pid<<" has made i/o request"<<std::endl;
             interrupt_info* info = new interrupt_info();
             info->cause  = i_o_request;
             info->hart   = cpuid;
+            info->iotime = curr_task->time_req;
             interrupt_handler(info);
         }else{
             int time = curr_task->time_req;
@@ -33,7 +35,6 @@ void cpu::in_cpu(process* p){
     info->cause  = proc_finished;
     info->hart   = cpuid;
     interrupt_handler(info);
-    std::cout<<p->pid<<" finished"<<std::endl;
-    
+    std::cout<<"process "<<p->pid<<" finished"<<std::endl;    
 }
 

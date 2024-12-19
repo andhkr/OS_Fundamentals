@@ -50,6 +50,9 @@ proc_smltr::proc_smltr(int n){
 
         task* curr_proc = &process_list[i].tasklisthead;
 
+        // curr_task
+        process_list[i].curr_task = curr_proc;
+        
         for(int j = 1;j<number_of_task;++j){
             char type = (rand() % 2 == 0) ? 'C' : 'I';
 

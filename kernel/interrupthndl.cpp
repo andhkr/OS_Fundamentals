@@ -1,9 +1,9 @@
 #include "interrupthndl.hpp"
 
 void swtcontext(process*,process*);
+void iorequest(int hart,int iotime,process* p);
 
-
-
+extern interrupt_info per_hart_infos[cores];
 // array of function pointer for differet type of interrupt handling
 // indexed by interrupt cause number.
 void (*handler[])(interrupt_info*) = {
@@ -25,13 +25,16 @@ void proc_fnshd_hndlr(interrupt_info* info){
         harts[hart].running_process = new_proc;
     }else{
         harts[hart].running_process = nullptr;
+        per_hart_infos[hart].p      = nullptr;
     }
 }
 
 void io_request_hndlr(interrupt_info* info){
     int hart = info->hart;
     rnd_rbn.block(harts[hart].running_process);
-    //call disk for service (yet to impliment)
+    //call i/o devices for service (yet to impliment)
+    iorequest(hart,info->iotime,info->p);
+    
 }
 
 void invalid_instr_hndlr(interrupt_info* info){
@@ -39,17 +42,16 @@ void invalid_instr_hndlr(interrupt_info* info){
 }
 
 void new_process_hndlr(interrupt_info* info){
-    //  std::cout<<"Radha1001"<<std::endl;
     rnd_rbn.proc_in(info->p);
 }
 
-void sched_intr_hndlr(interrupt_info* info){
-    
+void sched_intr_hndlr(interrupt_info* info){    
     rnd_rbn.schdintr_handler();
 }
 
 void io_finished_hndlr(interrupt_info* info){
     // the corresponding process will be made to be in ready queue
+    std::cout<<"io request of process "<<info->p->pid<<" is completed"<<std::endl;
     rnd_rbn.blocked.remove(info->p);
     rnd_rbn.Ready(info->p);
 }
