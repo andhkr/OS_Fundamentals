@@ -12,13 +12,6 @@
 
 #include "cpu/cpu.hpp"
 #include <ctime>
-// struct used by every device for interrupt generation
-struct interrupt_info{
-    int cause;
-    int hart;
-    int iotime=0;          // for time used in i/o request
-    process* p = nullptr;
-};
 
 //various interrupt handlers    
 void proc_fnshd_hndlr(interrupt_info* info);

@@ -9,8 +9,6 @@ OBJS1 = \
     $(K)/lock.o \
     $(K)/proc_simltr.o \
     $(K)/round_robin.o \
-    $(K)/io.o \
-    $(K)/$(D)/proc_queue.o \
     $(K)/$(D)/tree.o \
 	$(K)/main.o
 

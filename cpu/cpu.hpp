@@ -3,7 +3,7 @@
 
 #include <ctime>
 #include "kernel/proc.hpp"
-#define cores 4
+#include "kernel/macros.hpp"
 
 struct cpu{
     int cpuid;    // hartid

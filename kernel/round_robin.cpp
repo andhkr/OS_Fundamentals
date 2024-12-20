@@ -42,6 +42,7 @@ void swtcontext(process* old, process* new_proc){
 }
 // update context when singel process for context switch handel
 void savecontext(process* old){
+    std::cout<<old->hart<<" save"<<std::endl;
     old->registers->pc=harts[old->hart].pc;
     old->registers->ra=harts[old->hart].ra;
     old->registers->s0=harts[old->hart].s0;
@@ -87,6 +88,7 @@ void RR::schdintr_handler(){
 }
 
 void RR::block(process* p){
+    harts[p->hart].running_process = nullptr;
     if(ready.get_count()!=0){
         process* ready_proc = ready.dequeue();
         swtcontext(p,ready_proc);
@@ -119,7 +121,7 @@ void* scheduler(void* args){
         clock_t start = clock();
         interrupt_info* info = new interrupt_info();
         info->cause  = sched_intr;
-        info->hart   = 4;
+        info->hart   = cores;       // one core is reserved for os
         while(((clock()-start)*1000/CLOCKS_PER_SEC)<rslice) counter++;        
         interrupt_handler(info);
     }

@@ -12,7 +12,7 @@ void bst::insert(process* p) {
     bool left = false;
 
     tree_lock->lock(nullptr);
-
+    std::cout<<"bst insert "<<p->pid<<std::endl;
     node* curr_node = root;
     while(curr_node){
         prev_node = curr_node;

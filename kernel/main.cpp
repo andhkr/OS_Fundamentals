@@ -1,5 +1,6 @@
 #include "interrupthndl.hpp"
 #include "roundrobin.hpp"
+#include "io.hpp"
 #include <iostream>
 #include <pthread.h>
 #include <sched.h>
@@ -7,8 +8,6 @@
 #include <csignal>
 #include <atomic>
 #include <mutex>
-
-#define number_of_procs 4
 
 std::mutex print_mutex;                      // since std::cout is not thread safe
 std::atomic<bool> run_threads(true);         // atomic variables so that read , write are thread safe
@@ -22,11 +21,11 @@ void* mycpu(void* cpuid){
     while(run_threads){
         pthread_mutex_lock(&per_hart_lock[id]);
 
-        pthread_cond_wait(&per_hart_cond[id],&per_hart_lock[id]);
-
+        while(!per_hart_infos[id].p){
+            pthread_cond_wait(&per_hart_cond[id],&per_hart_lock[id]);
+        }
         //start to run process
-        // if info have process then schedule
-        if(per_hart_infos[id].p)
+        if(per_hart_infos[id].p) //--> when call for power off then it will save from furthure call and segmentation fault
         harts[id].in_cpu(per_hart_infos[id].p);
 
         pthread_mutex_unlock(&per_hart_lock[id]);
@@ -49,6 +48,23 @@ void* mycpu(void* cpuid){
         */
         std::lock_guard<std::mutex> lock(print_mutex);
         std::cout<<"CPU "<<id<<" is now off"<<std::endl;
+    }
+    return nullptr;
+}
+
+pthread_mutex_t iolock = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t iocond  = PTHREAD_COND_INITIALIZER;
+
+ioreqrec iodevice;
+void* IO_devices(void* args){
+
+    while(run_threads){
+        pthread_mutex_lock(&iolock);
+        while(iodevice.ioqueue.no_of_procs==0){
+            pthread_cond_wait(&iocond,&iolock);
+        }
+        iodevice.service_request();
+        pthread_mutex_unlock(&iolock);
     }
     return nullptr;
 }
@@ -110,6 +126,13 @@ int main(){
         }
         
     }
+
+    // creating thread for IO devices
+    pthread_t iothrd;
+    if(pthread_create(&iothrd,NULL,IO_devices,NULL)){
+        fprintf(stderr,"ERROR:thread creation for iothrd failed\n");
+    }
+
     sleep(1);
 
     // creating scheduler thread
@@ -163,6 +186,9 @@ int main(){
     }
     // joining scheduler
     pthread_join(sched_thrd,nullptr);
+    // joining IO_devices
+    pthread_join(iothrd,NULL);
+
     free_apnalocks();
     std::cout<<"Power off"<<std::endl;
     return 0;

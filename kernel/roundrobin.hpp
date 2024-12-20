@@ -10,7 +10,7 @@
 #define timer_interrupt 10
 
 struct RR{
-    proc_queue ready;
+    queue<process*> ready;
     bst blocked;
     int time_slice = timer_interrupt;
     //default constructor

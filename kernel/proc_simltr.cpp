@@ -14,7 +14,9 @@ task::task(char a_type, int a_time,task* a_next_task)
 //parameterised constructor
 process::process(int a_pid,int a_arrival,task a_head)
 :pid(a_pid),arrival(a_arrival),tasklisthead(a_head)
-{}
+{
+    registers = new context();
+}
 
 
 // print
@@ -52,7 +54,7 @@ proc_smltr::proc_smltr(int n){
 
         // curr_task
         process_list[i].curr_task = curr_proc;
-        
+
         for(int j = 1;j<number_of_task;++j){
             char type = (rand() % 2 == 0) ? 'C' : 'I';
 
@@ -72,6 +74,7 @@ proc_smltr::~proc_smltr(){
             curr = curr->next_task;
             delete prev;
         }
+        delete process_list[i].registers;
     }
     delete[] process_list;
 }

@@ -2,13 +2,10 @@
 #define DEFS_HPP
 
 #include <cstdint>
+#include "macros.hpp"
 
 // proc_simltr.cpp
 
-#define max_procs             100 // maximum process system can handel
-#define max_task_per_process  20
-#define max_arrival_time_unit 100
-#define max_time_per_task     1000
 
 /*
 P1 5 C 20 I 10 C 200 I 10
@@ -59,7 +56,9 @@ struct process{
     struct context*  registers; // content of registers
     int hart  = 0;
     //default constructor
-    process(){};
+    process(){
+        registers = new context();
+    }
 
     //parameterised constructor
     process(int a_pid,int a_arrival,task a_head);
@@ -83,6 +82,14 @@ struct proc_smltr {
     void print();
 
     void sort_procs();
+};
+
+// struct used by every device for interrupt generation
+struct interrupt_info{
+    int cause;
+    int hart;
+    int iotime=0;          // for time used in i/o request
+    process* p = nullptr;
 };
 
 #endif

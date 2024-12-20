@@ -1,12 +1,13 @@
 #include "interrupthndl.hpp"
+#include "io.hpp"
 
 void swtcontext(process*,process*);
-void iorequest(int hart,int iotime,process* p);
+extern ioreqrec iodevice;
 
 extern interrupt_info per_hart_infos[cores];
 // array of function pointer for differet type of interrupt handling
 // indexed by interrupt cause number.
-void (*handler[])(interrupt_info*) = {
+void (*handler[6])(interrupt_info*) = {
     proc_fnshd_hndlr,
     io_request_hndlr,
     invalid_instr_hndlr,
@@ -14,6 +15,7 @@ void (*handler[])(interrupt_info*) = {
     sched_intr_hndlr,
     io_finished_hndlr
 };
+
 extern RR rnd_rbn;
 // varoius interrupt handlers    
 void proc_fnshd_hndlr(interrupt_info* info){
@@ -30,11 +32,8 @@ void proc_fnshd_hndlr(interrupt_info* info){
 }
 
 void io_request_hndlr(interrupt_info* info){
-    int hart = info->hart;
-    rnd_rbn.block(harts[hart].running_process);
-    //call i/o devices for service (yet to impliment)
-    iorequest(hart,info->iotime,info->p);
-    
+    rnd_rbn.block(info->p);
+    iodevice.rec(info);
 }
 
 void invalid_instr_hndlr(interrupt_info* info){
@@ -74,9 +73,13 @@ void free_apnalocks(){
 //device to service interrupt
 void* interrupt_handler(void* info){
     interrupt_info* tinfo = (interrupt_info*)info;;
+    // std::cout<<"1."<<tinfo->hart<<" 2."<<tinfo->cause<<std::endl;
     apnalocks[tinfo->hart]->lock(nullptr);
+    // std::cout<<tinfo->cause<<std::endl;
     handler[tinfo->cause](tinfo);
+    // std::cout<<tinfo->cause<<std::endl;
     apnalocks[tinfo->hart]->unlock(nullptr);
+    
     delete tinfo;
     info = nullptr;
     return nullptr;
