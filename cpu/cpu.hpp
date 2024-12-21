@@ -4,6 +4,7 @@
 #include <ctime>
 #include "kernel/proc.hpp"
 #include "kernel/macros.hpp"
+#include "kernel/lock.hpp"
 
 struct cpu{
     int cpuid;    // hartid
@@ -14,12 +15,17 @@ struct cpu{
     //there are also many registers saved during trap handling
     // mentioned here only for context switch
     process* running_process=nullptr;
-
+    volatile bool halt=false;          // stop cpu execution
+    volatile bool ishalted = false;   // confirmation
+    teplock* cpulock;
     //constructor
-    cpu(){}
+    cpu(){
+        cpulock = new ticket_lock();
+    }
     cpu(int);
     void finished();
     void in_cpu(process* p);
+    void scheduled_proc();
 };
 
 extern cpu harts[cores];

@@ -12,7 +12,6 @@ void bst::insert(process* p) {
     bool left = false;
 
     tree_lock->lock(nullptr);
-    std::cout<<"bst insert "<<p->pid<<std::endl;
     node* curr_node = root;
     while(curr_node){
         prev_node = curr_node;
@@ -127,7 +126,7 @@ void bst::remove(process* p) {
         delete curr_node;
         curr_node = nullptr;
     }else{
-        fprintf(stderr,"Error: process not found\n");
+        fprintf(stderr,"Error: process %d not found\n",p->pid);
         exit(1);
     }
     tree_lock->unlock(nullptr);

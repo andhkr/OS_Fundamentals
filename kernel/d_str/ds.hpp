@@ -33,7 +33,7 @@ public:
         entityqueue[tail] = p;
         tail = (tail+1)%max_procs;
         ++no_of_procs;
-        qlock->lock(nullptr);
+        qlock->unlock(nullptr);
     }
 
     //dequeue
@@ -42,13 +42,16 @@ public:
         T p = entityqueue[head];
         head = (head+1)%max_procs;
         --no_of_procs;
-        qlock->lock(nullptr);
+        qlock->unlock(nullptr);
         return p;
     }
 
     // number of entity in queue
     int get_count(){
-        return no_of_procs;
+        qlock->lock(nullptr);
+        int count = no_of_procs;
+        qlock->unlock(nullptr);
+        return count;
     }
 };
 

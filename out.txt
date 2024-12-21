@@ -1,714 +1,107 @@
-P0 83 C 778 I 794 I 387 C 650 I 363 I 691 I 764 
-P1 126 C 427 
-P2 172 C 212 C 568 I 783 C 863 I 68 I 930 C 23 C 70 I 394 C 12 C 230 I 422 I 785 I 199 C 316 C 414 C 92 
-P3 180 C 874 C 171 C 282 I 926 C 328 C 506 C 730 I 858 C 896 C 546 C 368 C 365 I 751 I 809 C 179 C 585 I 652 
-process 0 scheduled on cpu0
-process 1 scheduled on cpu1
-process 2 scheduled on cpu2
-process 3 scheduled on cpu3
-process 1 finished
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
-process 3 has made i/o request
-3 save
-bst insert 3
-process 3 scheduled on cpu3
-process 0 has made i/o request
-0 save
-bst insert 0
-process 0 scheduled on cpu0
-process 2 has made i/o request
-2 save
-bst insert 2
-process 2 scheduled on cpu2
+slepping
+P0 83 C 58 I 34 I 27 C 10 I 43 I 51 I 4 
+process 0 scheduled on cpu0
+process 0 has made i/o request
+slepping
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+1. 0
+slepping
+1. 0
 Now Scheduler is off
-process 0 has made i/o request
-0 save
-bst insert 0
-CPU 0 is now off
-process 2 has made i/o request
-2 save
-bst insert 2
-CPU 2 is now off
-process 3 has made i/o request
-3 save
-bst insert 3
-CPU 3 is now off

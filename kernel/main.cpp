@@ -14,19 +14,20 @@ std::atomic<bool> run_threads(true);         // atomic variables so that read , 
 
 pthread_mutex_t per_hart_lock[cores];
 extern pthread_cond_t per_hart_cond[cores];
-extern interrupt_info per_hart_infos[cores];
+extern queue<process*> per_hart_infos[cores];
 
 void* mycpu(void* cpuid){
     int id = *(int*)cpuid;
-    while(run_threads){
+    while(run_threads){ 
         pthread_mutex_lock(&per_hart_lock[id]);
 
-        while(!per_hart_infos[id].p){
+        while(per_hart_infos[id].get_count()==0){
             pthread_cond_wait(&per_hart_cond[id],&per_hart_lock[id]);
         }
         //start to run process
-        if(per_hart_infos[id].p) //--> when call for power off then it will save from furthure call and segmentation fault
-        harts[id].in_cpu(per_hart_infos[id].p);
+        if(per_hart_infos[id].get_count()!=0){ //--> when call for power off then it will save from furthure call and segmentation fault
+            harts[id].in_cpu(per_hart_infos[id].dequeue());
+        }
 
         pthread_mutex_unlock(&per_hart_lock[id]);
     }
@@ -60,7 +61,7 @@ void* IO_devices(void* args){
 
     while(run_threads){
         pthread_mutex_lock(&iolock);
-        while(iodevice.ioqueue.no_of_procs==0){
+        while(run_threads && iodevice.ioqueue.no_of_procs==0){
             pthread_cond_wait(&iocond,&iolock);
         }
         iodevice.service_request();
@@ -75,6 +76,7 @@ void signalhandler(int signum){
     for(int i = 0;i<cores;++i){
         pthread_cond_signal(&per_hart_cond[i]);
     }
+    pthread_cond_signal(&iocond);
 }
 /*
 in proc.hpp max number of process can be simulated is definded as macro
@@ -100,9 +102,6 @@ int main(){
     for(int i = 0;i<cores;++i){
         pthread_mutex_init(&per_hart_lock[i],NULL);
         pthread_cond_init(&per_hart_cond[i],NULL);
-        per_hart_infos[i].cause = 0;
-        per_hart_infos[i].hart = 0;
-        per_hart_infos[i].p = nullptr;
     }
 
     // creating thread for each cpu
@@ -136,7 +135,7 @@ int main(){
     sleep(1);
 
     // creating scheduler thread
-    int slice = 5*timer_interrupt;
+    int slice = 10*timer_interrupt;
     pthread_t sched_thrd;
     if(pthread_create(&sched_thrd,NULL,scheduler,&slice)){
         fprintf(stderr,"ERROR:Scheduler thread creation Failed\n");

@@ -16,16 +16,19 @@ public:
     }
 
     void service_request(){
+        
         while(ioqueue.no_of_procs){
             interrupt_info* old_info = ioqueue.dequeue();
+            // std::cout<<"request servicing of p "<<old_info->p->pid<<std::endl;
             int iotime = old_info->iotime;
             long counter = 0;
             clock_t start = clock();
-            while(((clock()-start)*1000/CLOCKS_PER_SEC)!=iotime)counter++;
+            while(((clock()-start)*1000/CLOCKS_PER_SEC)<iotime)counter++;
             interrupt_info* info = new interrupt_info();
             info->cause  = i_o_finished;
             info->hart   = cores;     // cpu reserved for os
             info->p      = old_info->p;
+            // std::cout<<"request servicing of p "<<old_info->p->pid<<std::endl;
             interrupt_handler(info);
         }
     }

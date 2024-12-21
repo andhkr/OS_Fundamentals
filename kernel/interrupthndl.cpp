@@ -3,7 +3,7 @@
 
 void swtcontext(process*,process*);
 extern ioreqrec iodevice;
-
+volatile int haveinterrupt=0;       // interrupts bit per core
 extern interrupt_info per_hart_infos[cores];
 // array of function pointer for differet type of interrupt handling
 // indexed by interrupt cause number.
@@ -24,7 +24,7 @@ void proc_fnshd_hndlr(interrupt_info* info){
     if(rnd_rbn.ready.get_count()!=0){
         process* new_proc = rnd_rbn.ready.dequeue();
         swtcontext(runn_p, new_proc);
-        harts[hart].running_process = new_proc;
+        rnd_rbn.cpu_in(hart,new_proc);
     }else{
         harts[hart].running_process = nullptr;
         per_hart_infos[hart].p      = nullptr;
@@ -34,6 +34,7 @@ void proc_fnshd_hndlr(interrupt_info* info){
 void io_request_hndlr(interrupt_info* info){
     rnd_rbn.block(info->p);
     iodevice.rec(info);
+    unsetbit(info->hart,haveinterrupt);
 }
 
 void invalid_instr_hndlr(interrupt_info* info){
@@ -52,7 +53,9 @@ void io_finished_hndlr(interrupt_info* info){
     // the corresponding process will be made to be in ready queue
     std::cout<<"io request of process "<<info->p->pid<<" is completed"<<std::endl;
     rnd_rbn.blocked.remove(info->p);
+    std::cout<<"io request of process "<<info->p->pid<<" is completed"<<std::endl;
     rnd_rbn.Ready(info->p);
+    std::cout<<"io request of process "<<info->p->pid<<" is completed"<<std::endl;
 }
 
 teplock* apnalocks[cores+1];
